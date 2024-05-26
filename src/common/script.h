@@ -144,8 +144,8 @@ enum opcodetype {
     // Opcode added by BIP 342 (Tapscript)
     OP_CHECKSIGADD = 0xba,
 
-    // Ravencoin
-    OP_RVN_ASSET = 0xc0,
+    // Avian
+    OP_AVN_ASSET = 0xc0,
 
     OP_INVALIDOPCODE = 0xff,
 };

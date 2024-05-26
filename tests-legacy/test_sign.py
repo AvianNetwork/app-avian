@@ -80,7 +80,7 @@ def test_untrusted_hash_sign_fail_short_payload(cmd, transport):
     sw, _ = transport.exchange(0xE0, 0x48, 0x00, 0x00, None, b"\x01\x02\x03\x04\x05\x06")
     assert sw == 0x6700
 
-# RVN Does not support segwit, though this logic does not change from BTC
+# AVN Does not support segwit, though this logic does not change from BTC
 '''
 @has_automation("automations/accept.json")
 def test_sign_p2wpkh_accept(cmd):
@@ -106,21 +106,21 @@ def test_sign_fail_p2pkh_reject(cmd):
         sign_from_json(cmd, "./data/one-to-one/p2pkh/tx.json")
 
 @has_automation("automations/accept.json")
-def test_sign_ravencoin_create(cmd):
-    sign_from_json(cmd, 'data/ravencoin/create/tx.json')
+def test_sign_avian_create(cmd):
+    sign_from_json(cmd, 'data/avian/create/tx.json')
 
 @has_automation("automations/accept.json")
-def test_sign_ravencoin_reissue(cmd):
-    sign_from_json(cmd, 'data/ravencoin/reissue/tx.json')
+def test_sign_avian_reissue(cmd):
+    sign_from_json(cmd, 'data/avian/reissue/tx.json')
 
 @has_automation("automations/accept.json")
-def test_sign_ravencoin_tag_qual(cmd):
-    sign_from_json(cmd, 'data/ravencoin/qualify_address/tx.json')
+def test_sign_avian_tag_qual(cmd):
+    sign_from_json(cmd, 'data/avian/qualify_address/tx.json')
 
 @has_automation("automations/accept.json")
-def test_sign_ravencoin_restricted(cmd):
-    sign_from_json(cmd, 'data/ravencoin/reissue_restricted/tx.json')
+def test_sign_avian_restricted(cmd):
+    sign_from_json(cmd, 'data/avian/reissue_restricted/tx.json')
 
 @has_automation("automations/accept.json")
-def test_sign_ravencoin_global_freeze(cmd):
-    sign_from_json(cmd, 'data/ravencoin/global_freeze/tx.json')
+def test_sign_avian_global_freeze(cmd):
+    sign_from_json(cmd, 'data/avian/global_freeze/tx.json')

@@ -35,9 +35,9 @@ const unsigned char TRANSACTION_OUTPUT_SCRIPT_P2SH_POST[] = {0x87}; // OP_EQUAL
 const unsigned char TRANSACTION_OUTPUT_SCRIPT_P2WPKH_PRE[] = {0x16, 0x00, 0x14};
 const unsigned char TRANSACTION_OUTPUT_SCRIPT_P2WSH_PRE[] = {0x22, 0x00, 0x20};
 
-//RVN
+//AVN
 
-unsigned char btchip_output_script_is_regular_ravencoin_asset(unsigned char *buffer) {
+unsigned char btchip_output_script_is_regular_avian_asset(unsigned char *buffer) {
     if ((os_memcmp(buffer + 1, TRANSACTION_OUTPUT_SCRIPT_PRE + 1,
                     sizeof(TRANSACTION_OUTPUT_SCRIPT_PRE) - 1) == 0) &&
         (os_memcmp(buffer + sizeof(TRANSACTION_OUTPUT_SCRIPT_PRE) + 20,
@@ -48,7 +48,7 @@ unsigned char btchip_output_script_is_regular_ravencoin_asset(unsigned char *buf
     return 0;
 }
 
-unsigned char btchip_output_script_is_p2sh_ravencoin_asset(unsigned char *buffer) {
+unsigned char btchip_output_script_is_p2sh_avian_asset(unsigned char *buffer) {
     if ((os_memcmp(buffer + 1, TRANSACTION_OUTPUT_SCRIPT_P2SH_PRE + 1,
                     sizeof(TRANSACTION_OUTPUT_SCRIPT_P2SH_PRE) - 1) == 0) &&
         (os_memcmp(buffer + sizeof(TRANSACTION_OUTPUT_SCRIPT_P2SH_PRE) + 20,
@@ -69,7 +69,7 @@ static bool increment_and_check_ptr(unsigned int* ptr, int amt, size_t size) {
 }
 
 //Check lengths etc.
-signed char btchip_output_script_try_get_ravencoin_asset_tag_type(unsigned char *buffer, size_t size) {
+signed char btchip_output_script_try_get_avian_asset_tag_type(unsigned char *buffer, size_t size) {
     int i;
     if (btchip_output_script_is_regular(buffer) ||
             btchip_output_script_is_p2sh(buffer) ||
@@ -124,7 +124,7 @@ signed char btchip_output_script_try_get_ravencoin_asset_tag_type(unsigned char 
 }
 
 //Verify the asset portion of an asset script
-signed char btchip_output_script_get_ravencoin_asset_ptr(unsigned char *buffer, size_t size) {
+signed char btchip_output_script_get_avian_asset_ptr(unsigned char *buffer, size_t size) {
     // This method is also used in check_output_displayable and needs to ensure no overflows happen from bad scripts
     unsigned int script_ptr = 1; // The script length is a varint; always less than 0xFC -> skip first
     unsigned int final_op = buffer[0], i;
@@ -248,7 +248,7 @@ signed char btchip_output_script_get_ravencoin_asset_ptr(unsigned char *buffer, 
     return script_start;
 }
 
-//END RVN
+//END AVN
 
 unsigned char btchip_output_script_is_regular(unsigned char *buffer) {
     if (G_coin_config->native_segwit_prefix) {

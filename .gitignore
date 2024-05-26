@@ -11,8 +11,8 @@ unit-tests/build/
 unit-tests/coverage/
 unit-tests/coverage.info
 
-tests-legacy/ravencoin-bin
-tests-legacy/ravencoin-testnet-bin
+tests-legacy/avian-bin
+tests-legacy/avian-testnet-bin
 
 # temporary folder used during tests
 tests/.test_bitcoin

@@ -435,7 +435,7 @@ int call_get_wallet_script(dispatcher_context_t *dispatcher_context,
     do {
         switch (state.nodes[state.node_stack_eos].policy_node->type) {
             case TOKEN_PKH:
-            /* Not yet implemented in RVN
+            /* Not yet implemented in AVN
             case TOKEN_WPKH:
             */
                 ret = process_pkh_wpkh_node(&state);

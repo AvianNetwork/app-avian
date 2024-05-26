@@ -36,7 +36,7 @@ APP_STACK_SIZE = 1500
 
 # simplify for tests
 ifndef COIN
-COIN=ravencoin_testnet
+COIN=avian_testnet
 endif
 
 # Custom NanoS linking script to overlap legacy globals and new globals
@@ -56,8 +56,8 @@ APP_LOAD_FLAGS=--appFlags 0xa50
 
 # All but bitcoin app use dependency onto the bitcoin app/lib
 
-ifeq ($(COIN),ravencoin_testnet)
-# Ravencoin testnet
+ifeq ($(COIN),avian_testnet)
+# Avian testnet
 DEFINES_LIB=
 DEFINES   += BIP32_PUBKEY_VERSION=0x043587CF
 DEFINES   += BIP44_COIN_TYPE=1
@@ -65,33 +65,33 @@ DEFINES   += BIP44_COIN_TYPE_2=1
 DEFINES   += COIN_P2PKH_VERSION=111
 DEFINES   += COIN_P2SH_VERSION=196
 DEFINES   += COIN_FAMILY=1
-DEFINES   += COIN_COINID=\"Raven\"
-DEFINES   += COIN_COINID_HEADER=\"RAVENCOIN\"
-DEFINES   += COIN_COINID_NAME=\"Ravencoin\"
-DEFINES   += COIN_COINID_SHORT=\"TRVN\"
-DEFINES   += COIN_KIND=COIN_KIND_RAVENCOIN_TESTNET
-APPNAME = "Ravencoin Test"
+DEFINES   += COIN_COINID=\"Avian\"
+DEFINES   += COIN_COINID_HEADER=\"AVIAN\"
+DEFINES   += COIN_COINID_NAME=\"Avian\"
+DEFINES   += COIN_COINID_SHORT=\"TAVN\"
+DEFINES   += COIN_KIND=COIN_KIND_Avian_TESTNET
+APPNAME = "Avian Test"
 APP_LOAD_PARAMS += --path $(APP_PATH)
 
-else ifeq ($(COIN),ravencoin)
-# Ravencoin
+else ifeq ($(COIN),avian)
+# Avian
 DEFINES_LIB=
 DEFINES   += BIP32_PUBKEY_VERSION=0x0488B21E
-DEFINES   += BIP44_COIN_TYPE=175
-DEFINES   += BIP44_COIN_TYPE_2=175
+DEFINES   += BIP44_COIN_TYPE=921
+DEFINES   += BIP44_COIN_TYPE_2=921
 DEFINES   += COIN_P2PKH_VERSION=60
 DEFINES   += COIN_P2SH_VERSION=122
 DEFINES   += COIN_FAMILY=1
-DEFINES   += COIN_COINID=\"Raven\"
-DEFINES   += COIN_COINID_HEADER=\"RAVENCOIN\"
-DEFINES   += COIN_COINID_NAME=\"Ravencoin\"
-DEFINES   += COIN_COINID_SHORT=\"RVN\"
-DEFINES   += COIN_KIND=COIN_KIND_RAVENCOIN
-APPNAME ="Ravencoin"
+DEFINES   += COIN_COINID=\"Avian\"
+DEFINES   += COIN_COINID_HEADER=\"AVIAN\"
+DEFINES   += COIN_COINID_NAME=\"Avian\"
+DEFINES   += COIN_COINID_SHORT=\"AVN\"
+DEFINES   += COIN_KIND=COIN_KIND_AVIAN
+APPNAME ="Avian"
 APP_LOAD_PARAMS += --path $(APP_PATH)
 else
 ifeq ($(filter clean,$(MAKECMDGOALS)),)
-$(error Unsupported COIN - use ravencoin_testnet, ravencoin)
+$(error Unsupported COIN - use avian_testnet, avian)
 endif
 endif
 
@@ -224,11 +224,11 @@ dep/%.d: %.c Makefile
 # Temporary restriction until we a Resistance Nano X icon
 ifeq ($(TARGET_NAME),TARGET_NANOS)
 listvariants:
-	@echo VARIANTS COIN ravencoin_testnet ravencoin
+	@echo VARIANTS COIN avian_testnet avian
 
 else
 listvariants:
-	@echo VARIANTS COIN ravencoin_testnet ravencoin
+	@echo VARIANTS COIN avian_testnet avian
 
 endif
 

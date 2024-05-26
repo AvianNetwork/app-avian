@@ -73,7 +73,7 @@ static void test_get_script_type_invalid(void **state) {
                             0x05,   0x06,       0x07,           0x08,        0x09,  0x0a, 0x0b,
                             0x0c,   0x0d,       0x0e,           0x0f,        0x10,  0x11, 0x12,
                             0x13,   0x14,       OP_EQUALVERIFY, OP_CHECKSIG, OP_NOP};  // extra byte
-    //RVN can have more at end
+    //AVN can have more at end
     //assert_int_equal(get_script_type(p2pkh_long, sizeof(p2pkh_long)), -1);
 
     uint8_t p2sh_short[] = {OP_HASH160, 0x14, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,
@@ -84,7 +84,7 @@ static void test_get_script_type_invalid(void **state) {
     uint8_t p2sh_long[] = {OP_HASH160, 0x14, 0x01, 0x02, 0x03,     0x04,  0x05, 0x06, 0x07,
                            0x08,       0x09, 0x0a, 0x0b, 0x0c,     0x0d,  0x0e, 0x0f, 0x10,
                            0x11,       0x12, 0x13, 0x14, OP_EQUAL, OP_NOP};  // extra byte
-    //RVN can have more at end 
+    //AVN can have more at end 
     //assert_int_equal(get_script_type(p2sh_long, sizeof(p2sh_long)), -1);
 
     /*
@@ -237,7 +237,7 @@ static bool increment_and_check_ptr(unsigned int* ptr, int amt, size_t size) {
     return *ptr >= size || *ptr > INT8_MAX;
 }
 
-static signed char btchip_output_script_try_get_ravencoin_asset_tag_type(unsigned char *buffer, size_t size) {
+static signed char btchip_output_script_try_get_avian_asset_tag_type(unsigned char *buffer, size_t size) {
     int i;
     if (/*  These aren't the focus of these tests, we will always assume they are valid p2pkh, p2sh
 
@@ -293,7 +293,7 @@ static signed char btchip_output_script_try_get_ravencoin_asset_tag_type(unsigne
     return 1;
 }
 
-static signed char btchip_output_script_get_ravencoin_asset_ptr(unsigned char *buffer, size_t size) {
+static signed char btchip_output_script_get_avian_asset_ptr(unsigned char *buffer, size_t size) {
     // This method is also used in check_output_displayable and needs to ensure no overflows happen from bad scripts
     unsigned int script_ptr = 1; // The script length is a varint; always less than 0xFC -> skip first
     unsigned int final_op = buffer[0], i;
@@ -418,13 +418,13 @@ static signed char btchip_output_script_get_ravencoin_asset_ptr(unsigned char *b
 }
 
 
-static void test_ravencoin_asset_script_valid(void **state) {
+static void test_avian_asset_script_valid(void **state) {
     (void) state;
     // Minimum asset len of 3                   V SCRIPT LENGTH
     uint8_t p2pkh_asset_transfer_min_name[] = {44, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 0x10,
+                       OP_AVN_ASSET, 0x10,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x03,
@@ -432,13 +432,13 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0x00, 0xE1, 0xF5, 0x05, 0x00, 0x00, 0x00, 0x00,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_transfer_min_name, sizeof(p2pkh_asset_transfer_min_name)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_transfer_min_name, sizeof(p2pkh_asset_transfer_min_name)) > 0);
 
     // Maximum asset len of 31
     uint8_t p2pkh_asset_transfer_max_name[] = {72, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 44,
+                       OP_AVN_ASSET, 44,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x1F,
@@ -447,13 +447,13 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0x00, 0xE1, 0xF5, 0x05, 0x00, 0x00, 0x00, 0x00,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_transfer_max_name, sizeof(p2pkh_asset_transfer_max_name)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_transfer_max_name, sizeof(p2pkh_asset_transfer_max_name)) > 0);
 
 
     uint8_t p2sh_asset_transfer_min_name[] = {42, OP_HASH160, 0x14, 0x01, 0x02, 0x03, 0x04, 0x05,    0x06,
                       0x07,       0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d,    0x0e,
                       0x0f,       0x10, 0x11, 0x12, 0x13, 0x14, OP_EQUAL,
-                       OP_RVN_ASSET, 0x10,
+                       OP_AVN_ASSET, 0x10,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x03,
@@ -461,13 +461,13 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0x00, 0xE1, 0xF5, 0x05, 0x00, 0x00, 0x00, 0x00,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2sh_asset_transfer_min_name, sizeof(p2sh_asset_transfer_min_name)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2sh_asset_transfer_min_name, sizeof(p2sh_asset_transfer_min_name)) > 0);
 
 
     uint8_t p2sh_asset_transfer_max_name[] = {70, OP_HASH160, 0x14, 0x01, 0x02, 0x03, 0x04, 0x05,    0x06,
                       0x07,       0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d,    0x0e,
                       0x0f,       0x10, 0x11, 0x12, 0x13, 0x14, OP_EQUAL,
-                       OP_RVN_ASSET, 44,
+                       OP_AVN_ASSET, 44,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x1F,
@@ -476,13 +476,13 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0x00, 0xE1, 0xF5, 0x05, 0x00, 0x00, 0x00, 0x00,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2sh_asset_transfer_max_name, sizeof(p2sh_asset_transfer_max_name)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2sh_asset_transfer_max_name, sizeof(p2sh_asset_transfer_max_name)) > 0);
     /* We calculate where 0xc0 is based on the script type. Once we confirm these ^ work we are good to go to just check the script types */
 
     uint8_t p2pkh_asset_transfer_with_ipfs[] = {78, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 40,
+                       OP_AVN_ASSET, 40,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x03,
@@ -492,12 +492,12 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0x58, 0xa8, 0x76, 0x93, 0xb7, 0x3d, 0x08, 0xf7, 0x7d, 0x77, 0xf6, 0xe7, 0x8f, 0xa2, 0x29, 0x56, 0x3c,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_transfer_with_ipfs, sizeof(p2pkh_asset_transfer_with_ipfs)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_transfer_with_ipfs, sizeof(p2pkh_asset_transfer_with_ipfs)) > 0);
 
     uint8_t p2pkh_asset_transfer_with_ipfs_timestamp[] = {82, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 44,
+                       OP_AVN_ASSET, 44,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x03,
@@ -508,24 +508,24 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0, 0, 0, 0,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_transfer_with_ipfs_timestamp, sizeof(p2pkh_asset_transfer_with_ipfs_timestamp)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_transfer_with_ipfs_timestamp, sizeof(p2pkh_asset_transfer_with_ipfs_timestamp)) > 0);
 
     uint8_t p2pkh_asset_owner[] = {37, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 0x09,
+                       OP_AVN_ASSET, 0x09,
                        0x72, 0x76, 0x6E,
                        0x6F,
                        0x04,
                        0x72, 0x72, 0x72, 0x21,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_owner, sizeof(p2pkh_asset_owner)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_owner, sizeof(p2pkh_asset_owner)) > 0);
 
     uint8_t p2pkh_asset_create[] = {109, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 47+34,
+                       OP_AVN_ASSET, 47+34,
                        0x72, 0x76, 0x6E,
                        0x71,
                        0x1F,
@@ -537,12 +537,12 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0x58, 0xa8, 0x76, 0x93, 0xb7, 0x3d, 0x08, 0xf7, 0x7d, 0x77, 0xf6, 0xe7, 0x8f, 0xa2, 0x29, 0x56, 0x3c,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_create, sizeof(p2pkh_asset_create)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_create, sizeof(p2pkh_asset_create)) > 0);
 
     uint8_t p2pkh_asset_create_no_ipfs[] = {109-34, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 47,
+                       OP_AVN_ASSET, 47,
                        0x72, 0x76, 0x6E,
                        0x71,
                        0x1F,
@@ -552,13 +552,13 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0, 1, 0,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_create_no_ipfs, sizeof(p2pkh_asset_create_no_ipfs)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_create_no_ipfs, sizeof(p2pkh_asset_create_no_ipfs)) > 0);
     
 
     uint8_t p2pkh_asset_reissue_no_ipfs[] = {109-34-1, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 47,
+                       OP_AVN_ASSET, 47,
                        0x72, 0x76, 0x6E,
                        0x72,
                        0x1F,
@@ -568,12 +568,12 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0xff, 1,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_reissue_no_ipfs, sizeof(p2pkh_asset_reissue_no_ipfs)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_reissue_no_ipfs, sizeof(p2pkh_asset_reissue_no_ipfs)) > 0);
 
     uint8_t p2pkh_asset_reissue[] = {109-1, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 47,
+                       OP_AVN_ASSET, 47,
                        0x72, 0x76, 0x6E,
                        0x72,
                        0x1F,
@@ -585,9 +585,9 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0x58, 0xa8, 0x76, 0x93, 0xb7, 0x3d, 0x08, 0xf7, 0x7d, 0x77, 0xf6, 0xe7, 0x8f, 0xa2, 0x29, 0x56, 0x3c,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_reissue_no_ipfs, sizeof(p2pkh_asset_reissue_no_ipfs)) > 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_reissue_no_ipfs, sizeof(p2pkh_asset_reissue_no_ipfs)) > 0);
 
-    uint8_t null_tag[] = {56, OP_RVN_ASSET, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
+    uint8_t null_tag[] = {56, OP_AVN_ASSET, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, 
                        0x20,
@@ -597,35 +597,35 @@ static void test_ravencoin_asset_script_valid(void **state) {
                        0
                        };
 
-    assert_true(btchip_output_script_try_get_ravencoin_asset_tag_type(null_tag, sizeof(null_tag)) > 0);
+    assert_true(btchip_output_script_try_get_avian_asset_tag_type(null_tag, sizeof(null_tag)) > 0);
 
-    uint8_t verifier_tag[] = {8, OP_RVN_ASSET, 0x50, 0x5, 0x4, 0x72, 0x72, 0x72, 0x72,};
+    uint8_t verifier_tag[] = {8, OP_AVN_ASSET, 0x50, 0x5, 0x4, 0x72, 0x72, 0x72, 0x72,};
 
-    assert_true(btchip_output_script_try_get_ravencoin_asset_tag_type(verifier_tag, sizeof(verifier_tag)) > 0);
+    assert_true(btchip_output_script_try_get_avian_asset_tag_type(verifier_tag, sizeof(verifier_tag)) > 0);
 
-    uint8_t verifier_tag_max[] = {85, OP_RVN_ASSET, 0x50, 81, 80, 
+    uint8_t verifier_tag_max[] = {85, OP_AVN_ASSET, 0x50, 81, 80, 
                         0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
                         0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
                         0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
                         0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
                         0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72};
 
-    assert_true(btchip_output_script_try_get_ravencoin_asset_tag_type(verifier_tag_max, sizeof(verifier_tag_max)) > 0);
+    assert_true(btchip_output_script_try_get_avian_asset_tag_type(verifier_tag_max, sizeof(verifier_tag_max)) > 0);
 
 
-    uint8_t global_freeze[] = {10, OP_RVN_ASSET, 0x50, 0x50, 0x6, 0x4, 0x72, 0x72, 0x72, 0x72, 0};
+    uint8_t global_freeze[] = {10, OP_AVN_ASSET, 0x50, 0x50, 0x6, 0x4, 0x72, 0x72, 0x72, 0x72, 0};
 
-    assert_true(btchip_output_script_try_get_ravencoin_asset_tag_type(global_freeze, sizeof(global_freeze)) > 0);
+    assert_true(btchip_output_script_try_get_avian_asset_tag_type(global_freeze, sizeof(global_freeze)) > 0);
 
 }   
 
-static void test_ravencoin_asset_script_invalid(void **state) {
+static void test_avian_asset_script_invalid(void **state) {
     (void) state;
 
     uint8_t p2pkh_asset_transfer_small_name[] = {43, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 0x9,
+                       OP_AVN_ASSET, 0x9,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x02,
@@ -633,12 +633,12 @@ static void test_ravencoin_asset_script_invalid(void **state) {
                        0x00, 0xE1, 0xF5, 0x05, 0x00, 0x00, 0x00, 0x00,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_transfer_small_name, sizeof(p2pkh_asset_transfer_small_name)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_transfer_small_name, sizeof(p2pkh_asset_transfer_small_name)) < 0);
 
 uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 45,
+                       OP_AVN_ASSET, 45,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x20,
@@ -647,13 +647,13 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0x00, 0xE1, 0xF5, 0x05, 0x00, 0x00, 0x00, 0x00,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_transfer_big_name, sizeof(p2pkh_asset_transfer_big_name)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_transfer_big_name, sizeof(p2pkh_asset_transfer_big_name)) < 0);
 
 
     uint8_t p2sh_asset_transfer_bad_len[] = {43, OP_HASH160, 0x14, 0x01, 0x02, 0x03, 0x04, 0x05,    0x06,
                       0x07,       0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d,    0x0e,
                       0x0f,       0x10, 0x11, 0x12, 0x13, 0x14, OP_EQUAL,
-                       OP_RVN_ASSET, 0x10,
+                       OP_AVN_ASSET, 0x10,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x03,
@@ -661,13 +661,13 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0x00, 0xE1, 0xF5, 0x05, 0x00, 0x00, 0x00, 0x00,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2sh_asset_transfer_bad_len, sizeof(p2sh_asset_transfer_bad_len)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2sh_asset_transfer_bad_len, sizeof(p2sh_asset_transfer_bad_len)) < 0);
 
 
     uint8_t p2sh_asset_transfer_bad_name_len[] = {69, OP_HASH160, 0x14, 0x01, 0x02, 0x03, 0x04, 0x05,    0x06,
                       0x07,       0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d,    0x0e,
                       0x0f,       0x10, 0x11, 0x12, 0x13, 0x14, OP_EQUAL,
-                       OP_RVN_ASSET, 44,
+                       OP_AVN_ASSET, 44,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x1F,
@@ -676,13 +676,13 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0x00, 0xE1, 0xF5, 0x05, 0x00, 0x00, 0x00, 0x00,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2sh_asset_transfer_bad_name_len, sizeof(p2sh_asset_transfer_bad_name_len)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2sh_asset_transfer_bad_name_len, sizeof(p2sh_asset_transfer_bad_name_len)) < 0);
     /* We calculate where 0xc0 is based on the script type. Once we confirm these ^ work we are good to go to just check the script types */
 
     uint8_t p2pkh_asset_transfer_with_bad_ipfs[] = {79, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 41,
+                       OP_AVN_ASSET, 41,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x03,
@@ -692,12 +692,12 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0x58, 0xa8, 0x76, 0x93, 0xb7, 0x3d, 0x08, 0xf7, 0x7d, 0x77, 0xf6, 0xe7, 0x8f, 0xa2, 0x29, 0x56, 0x3c, 0,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_transfer_with_bad_ipfs, sizeof(p2pkh_asset_transfer_with_bad_ipfs)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_transfer_with_bad_ipfs, sizeof(p2pkh_asset_transfer_with_bad_ipfs)) < 0);
 
     uint8_t p2pkh_asset_transfer_with_small_ipfs[] = {81, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 43,
+                       OP_AVN_ASSET, 43,
                        0x72, 0x76, 0x6E,
                        0x74,
                        0x03,
@@ -708,24 +708,24 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0, 0, 0, 0,
                        0x75};
     
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_transfer_with_small_ipfs, sizeof(p2pkh_asset_transfer_with_small_ipfs)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_transfer_with_small_ipfs, sizeof(p2pkh_asset_transfer_with_small_ipfs)) < 0);
 
     uint8_t p2pkh_asset_owner_no_exc[] = {37, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 0x09,
+                       OP_AVN_ASSET, 0x09,
                        0x72, 0x76, 0x6E,
                        0x6F,
                        0x04,
                        0x72, 0x72, 0x72, 0x72,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_owner_no_exc, sizeof(p2pkh_asset_owner_no_exc)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_owner_no_exc, sizeof(p2pkh_asset_owner_no_exc)) < 0);
 
     uint8_t p2pkh_asset_wrong_type[] = {109, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 47+34,
+                       OP_AVN_ASSET, 47+34,
                        0x72, 0x76, 0x6E,
                        0x72,
                        0x1F,
@@ -737,12 +737,12 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0x58, 0xa8, 0x76, 0x93, 0xb7, 0x3d, 0x08, 0xf7, 0x7d, 0x77, 0xf6, 0xe7, 0x8f, 0xa2, 0x29, 0x56, 0x3c,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_wrong_type, sizeof(p2pkh_asset_wrong_type)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_wrong_type, sizeof(p2pkh_asset_wrong_type)) < 0);
 
     uint8_t p2pkh_asset_create_no_ipfs_extra_byte[] = {109-33, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 48,
+                       OP_AVN_ASSET, 48,
                        0x72, 0x76, 0x6E,
                        0x71,
                        0x1F,
@@ -752,13 +752,13 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0, 1, 0, 0,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_create_no_ipfs_extra_byte, sizeof(p2pkh_asset_create_no_ipfs_extra_byte)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_create_no_ipfs_extra_byte, sizeof(p2pkh_asset_create_no_ipfs_extra_byte)) < 0);
     
 
     uint8_t p2pkh_asset_reissue_no_ipfs_extra_byte[] = {109-34, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 48,
+                       OP_AVN_ASSET, 48,
                        0x72, 0x76, 0x6E,
                        0x72,
                        0x1F,
@@ -768,12 +768,12 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0xff, 1,0,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_reissue_no_ipfs_extra_byte, sizeof(p2pkh_asset_reissue_no_ipfs_extra_byte)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_reissue_no_ipfs_extra_byte, sizeof(p2pkh_asset_reissue_no_ipfs_extra_byte)) < 0);
 
-    uint8_t p2pkh_asset_reissue_but_not_rvn[] = {109-1, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
+    uint8_t p2pkh_asset_reissue_but_not_avn[] = {109-1, OP_DUP, OP_HASH160, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, OP_EQUALVERIFY, OP_CHECKSIG,
-                       OP_RVN_ASSET, 47,
+                       OP_AVN_ASSET, 47,
                        0x72, 0x76, 0,
                        0x72,
                        0x1F,
@@ -785,9 +785,9 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0x58, 0xa8, 0x76, 0x93, 0xb7, 0x3d, 0x08, 0xf7, 0x7d, 0x77, 0xf6, 0xe7, 0x8f, 0xa2, 0x29, 0x56, 0x3c,
                        0x75};
 
-    assert_true(btchip_output_script_get_ravencoin_asset_ptr(p2pkh_asset_reissue_but_not_rvn, sizeof(p2pkh_asset_reissue_but_not_rvn)) < 0);
+    assert_true(btchip_output_script_get_avian_asset_ptr(p2pkh_asset_reissue_but_not_avn, sizeof(p2pkh_asset_reissue_but_not_avn)) < 0);
 
-    uint8_t null_tag_large_name[] = {57, OP_RVN_ASSET, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
+    uint8_t null_tag_large_name[] = {57, OP_AVN_ASSET, 0x14, 0x01, 0x02, 0x03,           0x04,       0x05, 0x06,
                        0x07,   0x08,       0x09, 0x0a, 0x0b, 0x0c,           0x0d,       0x0e, 0x0f,
                        0x10,   0x11,       0x12, 0x13, 0x14, 
                        0x20,
@@ -797,9 +797,9 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                        0
                        };
 
-    assert_true(btchip_output_script_try_get_ravencoin_asset_tag_type(null_tag_large_name, sizeof(null_tag_large_name)) < 0);
+    assert_true(btchip_output_script_try_get_avian_asset_tag_type(null_tag_large_name, sizeof(null_tag_large_name)) < 0);
 
-    uint8_t verifier_tag_over_80[] = {86, OP_RVN_ASSET, 0x50, 82, 81, 
+    uint8_t verifier_tag_over_80[] = {86, OP_AVN_ASSET, 0x50, 82, 81, 
                         0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
                         0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
                         0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
@@ -807,11 +807,11 @@ uint8_t p2pkh_asset_transfer_big_name[] = {73, OP_DUP, OP_HASH160, 0x14, 0x01, 0
                         0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
                         0x72,};
 
-    assert_true(btchip_output_script_try_get_ravencoin_asset_tag_type(verifier_tag_over_80, sizeof(verifier_tag_over_80)) < 0);
+    assert_true(btchip_output_script_try_get_avian_asset_tag_type(verifier_tag_over_80, sizeof(verifier_tag_over_80)) < 0);
 
-    uint8_t global_freeze_bad_len[] = {10, OP_RVN_ASSET, 0x50, 0x50, 0x50, 0x7, 0x4, 0x72, 0x72, 0x72, 0x72, 0};
+    uint8_t global_freeze_bad_len[] = {10, OP_AVN_ASSET, 0x50, 0x50, 0x50, 0x7, 0x4, 0x72, 0x72, 0x72, 0x72, 0};
 
-    assert_true(btchip_output_script_try_get_ravencoin_asset_tag_type(global_freeze_bad_len, sizeof(global_freeze_bad_len)) < 0);
+    assert_true(btchip_output_script_try_get_avian_asset_tag_type(global_freeze_bad_len, sizeof(global_freeze_bad_len)) < 0);
 
 
 }
@@ -855,8 +855,8 @@ int main() {
         cmocka_unit_test(test_get_script_type_invalid),
         cmocka_unit_test(test_format_opscript_script_valid),
         cmocka_unit_test(test_format_opscript_script_invalid),
-        cmocka_unit_test(test_ravencoin_asset_script_valid),
-        cmocka_unit_test(test_ravencoin_asset_script_invalid),
+        cmocka_unit_test(test_avian_asset_script_valid),
+        cmocka_unit_test(test_avian_asset_script_invalid),
     };
 
     return cmocka_run_group_tests(tests, NULL, NULL);

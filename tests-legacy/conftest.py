@@ -43,7 +43,7 @@ def device(request, hid):
         lib_arg = []
 
     base_args = [
-        speculos_executable, "./ravencoin-testnet-bin/app.elf",
+        speculos_executable, "./avian-testnet-bin/app.elf",
         *lib_arg,
         "--sdk", "2.0",
         "--display", "headless"

@@ -64,11 +64,11 @@ static bool check_output_displayable() {
         btchip_output_script_is_op_return(btchip_context_D.currentOutput + 8);
     
     if (nullAmount) {
-        asset_ptr = btchip_output_script_get_ravencoin_asset_ptr(
+        asset_ptr = btchip_output_script_get_avian_asset_ptr(
             btchip_context_D.currentOutput + 8,
             sizeof(btchip_context_D.currentOutput) - 8
         );
-        tag_type = btchip_output_script_try_get_ravencoin_asset_tag_type(
+        tag_type = btchip_output_script_try_get_avian_asset_tag_type(
             btchip_context_D.currentOutput + 8,
             sizeof(btchip_context_D.currentOutput) - 8
         );
@@ -80,9 +80,9 @@ static bool check_output_displayable() {
         btchip_context_D.currentOutput + 8);
 
     if (asset_ptr > 0) {
-        isP2sh = btchip_output_script_is_p2sh_ravencoin_asset(btchip_context_D.currentOutput + 8);
+        isP2sh = btchip_output_script_is_p2sh_avian_asset(btchip_context_D.currentOutput + 8);
         asset_type = (btchip_context_D.currentOutput + 8)[asset_ptr];
-        invalid = !btchip_output_script_is_regular_ravencoin_asset(btchip_context_D.currentOutput + 8) && 
+        invalid = !btchip_output_script_is_regular_avian_asset(btchip_context_D.currentOutput + 8) && 
             !isP2sh && !(isOpReturn || tag_type > 0);
     }
     else {

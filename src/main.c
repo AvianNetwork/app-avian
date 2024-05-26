@@ -225,7 +225,7 @@ void app_main() {
 #endif
             // if not Bitcoin or Bitcoin-testnet, we only support the legacy APDUS.
             // to be removed once the apps are split
-            // TODO: Is set false for RVN, update logic?
+            // TODO: Is set false for AVN, update logic?
             if (G_coin_config->bip32_pubkey_version != 0x0488B21E &&
                 G_coin_config->bip32_pubkey_version != 0x043587CF) {
                 io_send_sw(SW_CLA_NOT_SUPPORTED);

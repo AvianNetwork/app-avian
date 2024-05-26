@@ -1052,7 +1052,7 @@ void get_address_from_output_script(unsigned char* script, int script_size, char
     unsigned short version = G_coin_config->p2sh_version;
 
     //Loose check
-    if (btchip_output_script_is_regular_ravencoin_asset(script)) {
+    if (btchip_output_script_is_regular_avian_asset(script)) {
         addressOffset = 4;
         version = G_coin_config->p2pkh_version;
     }
@@ -1087,7 +1087,7 @@ uint8_t prepare_single_output() {
     btchip_swap_bytes(amount, btchip_context_D.currentOutput + offset, 8);
     offset += 8;
 
-    if ((type = btchip_output_script_try_get_ravencoin_asset_tag_type(btchip_context_D.currentOutput + offset,  sizeof(btchip_context_D.currentOutput) - offset)) >= 1) {
+    if ((type = btchip_output_script_try_get_avian_asset_tag_type(btchip_context_D.currentOutput + offset,  sizeof(btchip_context_D.currentOutput) - offset)) >= 1) {
       if (type <= 3) {
         //TODO: Switches? whats that
         if (type == 1) {
@@ -1101,7 +1101,7 @@ uint8_t prepare_single_output() {
           // Checks done in try_get_asset_tag_type, no more than 32
           str_len = (btchip_context_D.currentOutput + offset)[0];
           offset += 1;
-          // Validity of string checked in btchip_output_script_try_get_ravencoin_asset_tag_type
+          // Validity of string checked in btchip_output_script_try_get_avian_asset_tag_type
           strncpy(vars.tmp.fullAmount, (char *)(btchip_context_D.currentOutput + offset), MIN(str_len, 32));
           vars.tmp.fullAmount[str_len] = 0;
           offset += str_len;
@@ -1116,7 +1116,7 @@ uint8_t prepare_single_output() {
           offset += 4;
           str_len = (btchip_context_D.currentOutput + offset)[0];
           offset += 1;
-          // Validity of string checked in btchip_output_script_try_get_ravencoin_asset_tag_type
+          // Validity of string checked in btchip_output_script_try_get_avian_asset_tag_type
           strncpy(vars.tmp.verifier_string, (char *)btchip_context_D.currentOutput + offset, MIN(str_len, 80));
           vars.tmp.verifier_string[str_len] = 0;
           return 3;
@@ -1124,7 +1124,7 @@ uint8_t prepare_single_output() {
           offset += 5;
           str_len = (btchip_context_D.currentOutput + offset)[0];
           offset += 1;
-          // Validity of string checked in btchip_output_script_try_get_ravencoin_asset_tag_type
+          // Validity of string checked in btchip_output_script_try_get_avian_asset_tag_type
           strncpy(vars.tmp.fullAmount, (char *)btchip_context_D.currentOutput + offset, MIN(str_len, 32));
           vars.tmp.fullAmount[str_len] = 0;
           offset += str_len;
@@ -1143,7 +1143,7 @@ uint8_t prepare_single_output() {
 
     // Prepare amount
 
-    asset_ptr = btchip_output_script_get_ravencoin_asset_ptr(
+    asset_ptr = btchip_output_script_get_avian_asset_ptr(
       btchip_context_D.currentOutput + offset,
       sizeof(btchip_context_D.currentOutput) - offset
     );
@@ -1151,7 +1151,7 @@ uint8_t prepare_single_output() {
     if (asset_ptr > 0) {
       type = (btchip_context_D.currentOutput + offset)[asset_ptr++];
       str_len = (btchip_context_D.currentOutput + offset)[asset_ptr++];
-      // Asset is verified to be ascii (signed char) safe in btchip_output_script_get_ravencoin_asset_ptr
+      // Asset is verified to be ascii (signed char) safe in btchip_output_script_get_avian_asset_ptr
       memcpy((unsigned char *)vars.tmp.fullAmount, btchip_context_D.currentOutput + offset + asset_ptr, str_len);
       asset_ptr += str_len;
       vars.tmp.fullAmount[str_len] = ' ';

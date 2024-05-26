@@ -40,14 +40,14 @@ typedef struct {
     uint8_t associated_data_ptr;
 } asset_data_t;
 
-//RVN
+//AVN
 
-unsigned char btchip_output_script_is_regular_ravencoin_asset(unsigned char *buffer);
-unsigned char btchip_output_script_is_p2sh_ravencoin_asset(unsigned char *buffer);
-signed char btchip_output_script_try_get_ravencoin_asset_tag_type(unsigned char *buffer, size_t size);
-signed char btchip_output_script_get_ravencoin_asset_ptr(unsigned char *buffer, size_t size);
+unsigned char btchip_output_script_is_regular_avian_asset(unsigned char *buffer);
+unsigned char btchip_output_script_is_p2sh_avian_asset(unsigned char *buffer);
+signed char btchip_output_script_try_get_avian_asset_tag_type(unsigned char *buffer, size_t size);
+signed char btchip_output_script_get_avian_asset_ptr(unsigned char *buffer, size_t size);
 
-//END RVN
+//END AVN
 
 unsigned char btchip_output_script_is_regular(unsigned char *buffer);
 unsigned char btchip_output_script_is_p2sh(unsigned char *buffer);

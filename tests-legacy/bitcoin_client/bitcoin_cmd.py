@@ -342,6 +342,6 @@ class BitcoinCommand(BitcoinBaseCommand):
                                                is_new_transaction=False)
             sigs.append(self.untrusted_hash_sign(sign_path=sign_paths[i],
                                                  lock_time=tx.nLockTime,
-                                                 sig_hash=1))
+                                                 sig_hash=41))
 
         return sigs
