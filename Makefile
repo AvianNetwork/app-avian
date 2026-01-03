@@ -27,7 +27,7 @@ APPVERSION_P = 10
 APPDEVELOPPER="Ledger"
 APPCOPYRIGHT="(c) 2024 Ledger"
 
-VARIANT_VALUES = bitcoin_testnet_legacy bitcoin_legacy bitcoin_cash bitcoin_gold litecoin dogecoin dash horizen komodo stratis peercoin pivx viacoin vertcoin digibyte bitcoin_private firo gamecredits zclassic nix lbry ravencoin hydra hydra_testnet xrhodium
+VARIANT_VALUES = bitcoin_testnet_legacy bitcoin_legacy bitcoin_cash bitcoin_gold litecoin dogecoin dash horizen komodo stratis peercoin pivx viacoin vertcoin digibyte bitcoin_private firo gamecredits zclassic nix lbry ravencoin avian hydra hydra_testnet xrhodium
 
 # Application source files
 # There is no additional sources for bitcoin
@@ -393,7 +393,19 @@ COIN_COINID_NAME="Ravencoin"
 COIN_COINID_SHORT=\"RVN\"
 COIN_KIND=COIN_KIND_RAVENCOIN
 APPNAME ="Ravencoin"
-
+else ifeq ($(COIN),avian)
+# Avian
+# Uses SIGHASH with FORKID (0x41), same base58 as Ravencoin
+BIP44_COIN_TYPE=921
+BIP44_COIN_TYPE_2=921
+COIN_P2PKH_VERSION=60
+COIN_P2SH_VERSION=122
+COIN_FAMILY=1
+COIN_COINID=\"Avian\"
+COIN_COINID_NAME=\"Avian\"
+COIN_COINID_SHORT=\"AVN\"
+COIN_KIND=COIN_KIND_AVIAN
+APPNAME ="Avian"
 else ifeq ($(COIN),hydra_testnet)
 # Hydra testnet
 BIP44_COIN_TYPE=0
